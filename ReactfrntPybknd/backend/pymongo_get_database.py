@@ -4,6 +4,8 @@ import pprint
 
 from pymongo import MongoClient
 from pymongo.server_api import ServerApi
+import pymongo
+print("The pymongo version is:", pymongo.version)
 
 load_dotenv(find_dotenv())
 password = os.getenv("MONGODB_PWD")
@@ -24,19 +26,23 @@ def get_database():
             print(i)
 
         finaldb = client.vishysurvey
-        collections =  finaldb.list_collection_names()
-        print("The list of collections are: ", collections)
-        print("*********************************************")
-        fin_objects = finaldb.vishy_sample.find()
-        for i in fin_objects:
-            printer.pprint(i)
-        print("*********************************************")
+        # collections =  finaldb.list_collection_names()
+        # print("The list of collections are: ", collections)
+        # print("*********************************************")
+        # fin_objects = finaldb.vishy_sample.find()
+        # for i in fin_objects:
+        #     printer.pprint(i)
+        # print("*********************************************")
         
         fin_objects = finaldb.vishy_sample.find()
         # Extract only the 'name' field
         name_list = [{'name': i['name']} for i in fin_objects if 'name' in i]
 
         print("The list of dictionaries is: ", name_list)
+
+        #Add the fruits dictionary for name_list
+        fruits = {"fruits":name_list}
+        print("The fruits dictionary is: ", fruits)
 
     except Exception as e:
         print("Failed to ping your deployment. Check your connection")
@@ -47,4 +53,8 @@ def get_database():
 if __name__ == "__main__":   
   
    # Get the database
-   dbname = get_database
+   dbname = get_database()
+
+# [{'name': 'plum'}, {'name': 'apple'}, {'name': 'plum'}]
+# {"fruits":[{"name":"banana"},{"name":"mango"},{"name":"water melon"},{"name":"strawberry"},{"name":"Gauva"}]}
+# {'fruits': [{'name': 'plum'}, {'name': 'apple'}, {'name': 'plum'}]}
