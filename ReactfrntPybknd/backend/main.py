@@ -29,28 +29,31 @@ app.add_middleware(
 memory_db = {"fruits" : []}
 
 dbname = get_database()
-collection_name = dbname['vishy_sample']
+collection_name = dbname.vishy_sample
 print("DB Connection Successful", collection_name)
 
-item_1 = {
-  "name" : "plum"
-}
+def insert_test_doc():
+    collection = dbname.vishy_sample
+    item_1 = {
+                "name" : "plum"
+                }
+    inserted_id = collection.insert_one(item_1)
+    print("Inserted ID: ", inserted_id.inserted_id)
 
-item_2 = {
-    "name" : "apple"
-    }
-
+insert_test_doc()
 # collection_name.insert_many([item_1,item_2])
 
 @app.get("/fruits", response_model=Fruits)
 def get_fruits():
-    # return Fruits(fruits=memory_db["fruits"])
-    return Fruits(fruits=collection_name.find())
+    print("this is the structure of the data inside db: ", memory_db["fruits"])
+    return Fruits(fruits=memory_db["fruits"])
+    # return Fruits(fruits=collection_name.find())
 
 @app.post("/fruits", response_model=Fruit)
 def add_fruit(fruit: Fruit):
-    # memory_db["fruits"].append(fruit)
-    collection_name.insert_one(fruit)
+    print("this is the structure of the input: ", fruit)
+    memory_db["fruits"].append(fruit)
+    # collection_name.insert_one(fruit)
     return fruit
 
 if __name__ == "__main__":
