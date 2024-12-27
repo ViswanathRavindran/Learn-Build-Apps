@@ -1,9 +1,10 @@
 import uvicorn
-from fastapi import FastAPI
+from fastapi import FastAPI, send_from_directory
 from fastapi.middleware.cors import CORSMiddleware
 from pymongo_get_database import get_database
 from pydantic import BaseModel
 from typing import List
+import os
 
 class Fruit(BaseModel):
     name: str
