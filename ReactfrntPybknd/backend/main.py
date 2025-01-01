@@ -1,5 +1,5 @@
 import uvicorn
-from fastapi import FastAPI, send_from_directory
+from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pymongo_get_database import get_database
 from pydantic import BaseModel
